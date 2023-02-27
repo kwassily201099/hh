@@ -1,0 +1,31 @@
+#include <iostream>
+#include <omp.h>
+
+#define SIZE 100
+
+int main() {
+    int arr[SIZE];
+    int i, j, num = 15;
+    
+    // initialize the array with random numbers
+    for (i = 0; i < SIZE; i++) {
+        arr[i] = rand() % 100;
+    }
+
+    // print the original array
+    std::cout << "Original array: ";
+    for (i = 0; i < SIZE; i++) {
+        std::cout << arr[i] << " ";
+    }
+    std::cout << std::endl;
+
+    // search for the number using OpenMP parallel programming
+    #pragma omp parallel for private(j)
+    for (i = 0; i < SIZE; i++) {
+        if (arr[i] == num) {
+            std::cout << "Thread " << omp_get_thread_num() << " found " << num << " at index " << i << std::endl;
+        }
+    }
+    
+    return 0;
+}
